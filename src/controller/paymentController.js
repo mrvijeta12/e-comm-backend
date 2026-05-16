@@ -4,10 +4,10 @@ import {
 } from "../services/paymentservice.js";
 
 export const createPaymentLinkController = async (req, res) => {
-  console.log("hitted");
+  // console.log("hitted");
 
   const id = req.params.id;
-  console.log(id);
+  // console.log(id);
 
   try {
     const paymentLink = await createPaymentLink(id);

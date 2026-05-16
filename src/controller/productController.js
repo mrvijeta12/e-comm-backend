@@ -63,6 +63,8 @@ export const updateProductController = async (req, res) => {
 
 //! get all product
 export const getAllProductController = async (req, res) => {
+  console.log("hitted");
+
   try {
     const products = await getAllProducts(req.query);
     console.log("prod:", products);
