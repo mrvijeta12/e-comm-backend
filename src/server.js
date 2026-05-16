@@ -1,8 +1,6 @@
 import connection from "./config/db.js";
 import app from "./index.js";
-
 await connection();
-
 export default app;
 
 //! for local host
