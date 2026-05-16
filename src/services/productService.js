@@ -191,7 +191,7 @@ export const getAllProducts = async (reqQuery) => {
 
     Product.countDocuments(filter),
   ]);
-  // console.log("product shirts:", products);
+  console.log("product:", products);
 
   return {
     content: products,
