@@ -63,11 +63,11 @@ export const updateProductController = async (req, res) => {
 
 //! get all product
 export const getAllProductController = async (req, res) => {
-  console.log(req.url);
+  console.log("hitting");
 
   try {
     const products = await getAllProducts(req.query);
-    // console.log("prod:", products);
+    console.log("prod:", products);
 
     return res.status(200).json({
       status: true,
