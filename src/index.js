@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+
 import authRouter from "./routes/authRoute.js";
 import userRouter from "./routes/userRoute.js";
 import productRoute from "./routes/productRoute.js";
@@ -12,9 +13,15 @@ import ratingRoute from "./routes/ratingRoute.js";
 import adminOrderRoute from "./routes/adminOrderRoute.js";
 import paymentRoute from "./routes/paymentRoute.js";
 
+import connection from "./config/db.js";
+
 const app = express();
 
+console.log("Connecting server to DB...");
+await connection();
+
 app.use(express.json());
+
 app.use(
   cors({
     origin: ["http://localhost:5173", "https://e-comm-ekk2.vercel.app"],
