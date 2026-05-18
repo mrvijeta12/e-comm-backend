@@ -1,19 +1,17 @@
 import connection from "./config/db.js";
 import app from "./index.js";
-await connection();
-export default app;
-
+import connection from "./config/db.js";
 //! for local host
-// const PORT = 5000;
-// const startServer = async () => {
-//   try {
-//     await connection(); // wait for DB
-//     app.listen(PORT, () => {
-//       console.log("server is running on:", PORT);
-//     });
-//   } catch (error) {
-//     console.log("Server failed to start");
-//   }
-// };
+const PORT = 5000;
+const startServer = async () => {
+  try {
+    await connection(); // wait for DB
+    app.listen(PORT, () => {
+      console.log("server is running on:", PORT);
+    });
+  } catch (error) {
+    console.log("Server failed to start", error.message);
+  }
+};
 
-// startServer();
+startServer();

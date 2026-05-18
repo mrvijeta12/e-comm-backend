@@ -21,13 +21,6 @@ app.use(
     credentials: true,
   }),
 );
-// ✅ ADD THIS HERE
-app.use((req, res, next) => {
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(200);
-  }
-  next();
-});
 
 app.get("/", (req, res) => {
   res.status(200).json({
