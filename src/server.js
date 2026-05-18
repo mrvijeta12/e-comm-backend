@@ -1,6 +1,6 @@
 import connection from "./config/db.js";
 import app from "./index.js";
-import connection from "./config/db.js";
+
 //! for local host
 const PORT = 5000;
 const startServer = async () => {
