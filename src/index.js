@@ -17,7 +17,7 @@ import connection from "./config/db.js";
 
 const app = express();
 
-console.log("Connecting server to DB...");
+// console.log("Connecting server to DB...");
 await connection();
 
 app.use(express.json());

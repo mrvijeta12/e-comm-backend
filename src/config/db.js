@@ -11,10 +11,13 @@ if (!process.env.SECRET_KEY) {
 
 const connection = async () => {
   try {
-    console.log("Connecting DB...");
-    await mongoose.connect(process.env.MONGO_URL, {
-      serverSelectionTimeoutMS: 10000,
-    });
+    // console.log("Connecting DB...");
+    await mongoose.connect(
+      process.env.MONGO_URL,
+      //    {
+      //   serverSelectionTimeoutMS: 10000,
+      // }
+    );
     console.log("Database Connected");
   } catch (error) {
     console.log("Error while connecting database:", error.message);

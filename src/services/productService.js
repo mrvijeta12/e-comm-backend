@@ -121,6 +121,8 @@ export const getAllProducts = async (reqQuery) => {
     filter.category = existCategory._id;
   }
 
+  // console.log(filter.category);
+
   // Color
   if (color) {
     const colors = color.split(",").map((c) => c.trim());

@@ -43,6 +43,7 @@ export const login = async (req, res) => {
   // console.log("hit");
 
   const { password, email } = req.body;
+
   try {
     const user = await findUserByEmail(email);
     if (!user) {
@@ -60,6 +61,8 @@ export const login = async (req, res) => {
     }
 
     const token = await generateToken(user._id);
+
+    // console.log(user);
 
     return res.status(200).json({
       status: true,
