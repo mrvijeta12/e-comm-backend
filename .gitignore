@@ -3,6 +3,7 @@
 
 # environment variables
 .env
+pay.js
 
 # production
 /build

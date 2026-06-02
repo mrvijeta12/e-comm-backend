@@ -25,10 +25,13 @@ const productSchema = new mongoose.Schema(
     },
     brand: {
       type: String,
+      trim: true,
     },
     color: {
       type: String,
+      trim: true,
     },
+
     sizes: [
       {
         name: { type: String },
@@ -48,6 +51,17 @@ const productSchema = new mongoose.Schema(
     numRatings: {
       type: Number,
       default: 0,
+    },
+    topLevelCategory: {
+      type: String,
+    },
+
+    secondLevelCategory: {
+      type: String,
+    },
+
+    thirdLevelCategory: {
+      type: String,
     },
     category: {
       type: mongoose.Schema.Types.ObjectId,

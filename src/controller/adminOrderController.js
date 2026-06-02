@@ -6,6 +6,7 @@ import {
   deleteOrder,
   deliverOrder,
   getAllOrders,
+  outForDeliveryOrder,
   shipOrder,
 } from "../services/orderService.js";
 
@@ -51,6 +52,23 @@ export const shippedOrdersController = async (req, res) => {
     return res.status(200).json({
       status: true,
       message: "Order shipped.",
+      order,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: false,
+      message: error.message,
+    });
+  }
+};
+//! out for  delivering orders
+export const outForDeliveryOrdersController = async (req, res) => {
+  const orderId = req.params.orderId;
+  try {
+    const order = await outForDeliveryOrder(orderId);
+    return res.status(200).json({
+      status: true,
+      message: "Order out for delivery.",
       order,
     });
   } catch (error) {

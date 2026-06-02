@@ -9,6 +9,8 @@ export const createOrder = async (user, shipAddress) => {
   let address;
   if (shipAddress._id) {
     const existAddress = await Address.findById(shipAddress._id);
+    // console.log(existAddress);
+
     address = existAddress;
   } else {
     address = new Address(shipAddress);
@@ -90,11 +92,18 @@ export const cancelOrder = async (orderId) => {
   order.orderStatus = "CANCELLED";
   return await order.save();
 };
+//! out for  delivery
+export const outForDeliveryOrder = async (orderId) => {
+  const order = await findOrderById(orderId);
+  if (!order) throw new Error("Order not found");
+  order.orderStatus = "OUT_FOR_DELIVERY";
+  return await order.save();
+};
 
 //! find order by id
 
 export const findOrderById = async (orderId) => {
-  // console.log("orderId", orderId);
+  // console.log("order id service hitted");
 
   const order = await Order.findById(orderId)
     .populate("user")
@@ -113,7 +122,7 @@ export const userOrderHistory = async (userId) => {
   try {
     const order = await Order.find({
       user: userId,
-      orderStatus: "PLACED",
+      // orderStatus: "PLACED",
     })
       .populate({ path: "orderItems", populate: { path: "product" } })
       .populate("shippingAddress")

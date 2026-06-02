@@ -1,5 +1,6 @@
 import { findUserById, getAllUsers } from "../services/userService.js";
 
+//! get user profile by id
 export const getUserProfile = async (req, res) => {
   const loggedInUser = req.user;
   // console.log("hit");
@@ -21,6 +22,7 @@ export const getUserProfile = async (req, res) => {
   }
 };
 
+//! get all users
 export const getAllUsersController = async (req, res) => {
   try {
     const users = await getAllUsers();

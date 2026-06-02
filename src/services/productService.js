@@ -13,17 +13,21 @@ export const createProduct = async (reqData) => {
     throw new Error("thirdLevelCategory is missing");
   }
   let topLevel = await Category.findOne({ name: reqData.topLevelCategory });
+  // console.log("top", topLevel);
+
   if (!topLevel) {
     topLevel = new Category({
       name: reqData.topLevelCategory,
       level: 1,
     });
+
     await topLevel.save();
   }
   let secondlevel = await Category.findOne({
     name: reqData.secondLevelCategory,
     parentCategory: topLevel._id,
   });
+  // console.log("second", secondlevel);
   if (!secondlevel) {
     secondlevel = new Category({
       name: reqData.secondLevelCategory,
@@ -32,10 +36,12 @@ export const createProduct = async (reqData) => {
     });
     await secondlevel.save();
   }
+
   let thirdlevel = await Category.findOne({
     name: reqData.thirdLevelCategory,
     parentCategory: secondlevel._id,
   });
+  // console.log("third", thirdlevel);
   if (!thirdlevel) {
     thirdlevel = new Category({
       name: reqData.thirdLevelCategory,
@@ -44,10 +50,13 @@ export const createProduct = async (reqData) => {
     });
     await thirdlevel.save();
   }
+  // console.log("third created", thirdlevel);
+
   // change to reqData
   const product = new Product({
     title: reqData.title,
     color: reqData.color,
+    brand: reqData.brand,
     description: reqData.description,
     discountedPrice: reqData.discountedPrice,
     discountedPercent:
@@ -61,9 +70,12 @@ export const createProduct = async (reqData) => {
     price: reqData.price,
     sizes: reqData.sizes,
     quantity: reqData.quantity,
+    topLevelCategory: topLevel.name,
+    secondLevelCategory: secondlevel.name,
+    thirdLevelCategory: thirdlevel.name,
     category: thirdlevel._id,
   });
-  // console.log(product);
+  // console.log("product created:", product);
 
   return await product.save();
 };
@@ -79,7 +91,11 @@ export const deleteProduct = async (productId) => {
 
 //! update product
 export const updateProduct = async (productId, reqData) => {
-  return await Product.findByIdAndUpdate(productId, reqData);
+  const result = await Product.findByIdAndUpdate(productId, reqData, {
+    returnDocument: "after",
+    runValidators: true,
+  });
+  return result;
 };
 
 //! find product by id
@@ -89,11 +105,16 @@ export const findProductById = async (productId) => {
   if (!product) {
     throw new Error(`Product not found with id : ${productId}`);
   }
+  // console.log(product);
+
   return product;
 };
 
 //! get all products based on the filter, sort and pagination
 export const getAllProducts = async (reqQuery) => {
+  console.log("get all products hitted");
+  console.log(reqQuery.category);
+
   let {
     category,
     color,
@@ -104,7 +125,7 @@ export const getAllProducts = async (reqQuery) => {
     sort,
     stock,
     pageNumber = 1,
-    pageSize = 10,
+    pageSize = 12,
   } = reqQuery;
 
   const page = Math.max(1, Number(pageNumber));
@@ -115,6 +136,8 @@ export const getAllProducts = async (reqQuery) => {
   // Category
   if (category) {
     const existCategory = await Category.findOne({ name: category });
+    console.log(existCategory);
+
     if (!existCategory) {
       return { content: [], currentPage: 1, totalPages: 0 };
     }
@@ -193,13 +216,28 @@ export const getAllProducts = async (reqQuery) => {
 
     Product.countDocuments(filter),
   ]);
-  // console.log("product:", products);
+  console.log("product:", products);
 
   return {
     content: products,
     currentPage: Number(pageNumber),
     totalPages: Math.ceil(totalProducts / pageSize),
+    totalProducts,
   };
+};
+
+//! get similar product
+export const getSimilarProducts = async (id) => {
+  const product = await Product.findById(id);
+  if (!product) {
+    return res.status(404).send({ message: "Product not found" });
+  }
+  const similarProducts = await Product.find({
+    category: product.category,
+    _id: { $ne: product._id },
+  }).limit(8);
+
+  return similarProducts;
 };
 
 //! create multiple products

@@ -4,6 +4,7 @@ import {
   deleteProduct,
   findProductById,
   getAllProducts,
+  getSimilarProducts,
   updateProduct,
 } from "../services/productService.js";
 
@@ -46,8 +47,12 @@ export const deleteProductController = async (req, res) => {
 //! update product
 export const updateProductController = async (req, res) => {
   const productId = req.params.id;
+  // console.log("hitted");
+
   try {
     const updatedProduct = await updateProduct(productId, req.body);
+    // console.log("updateProduct", updatedProduct);
+
     return res.status(200).json({
       status: true,
       message: "Product updated successfully.",
@@ -67,6 +72,28 @@ export const getAllProductController = async (req, res) => {
 
   try {
     const products = await getAllProducts(req.query);
+    // console.log("prod:", products);
+
+    return res.status(200).json({
+      status: true,
+      message: "Product fetched successfully.",
+      products,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: false,
+      message: error.message,
+    });
+  }
+};
+
+//! get similar product
+export const getSimilarProductController = async (req, res) => {
+  // console.log("hitting");
+  const id = req.params.id;
+
+  try {
+    const products = await getSimilarProducts(id);
     // console.log("prod:", products);
 
     return res.status(200).json({
@@ -103,6 +130,8 @@ export const createMultipleProductController = async (req, res) => {
 
 export const findProductByIdController = async (req, res) => {
   const productId = req.params.id;
+  // console.log("hitted get product by id ");
+
   try {
     const product = await findProductById(productId);
     return res.status(200).json({

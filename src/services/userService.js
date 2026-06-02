@@ -1,6 +1,7 @@
 import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
 
+//! create user
 export const createUser = async (userData, session) => {
   try {
     const { firstName, lastName, email, password } = userData;
@@ -26,6 +27,7 @@ export const createUser = async (userData, session) => {
   }
 };
 
+//! find user by id
 export const findUserById = async (userId) => {
   try {
     const user = await User.findById(userId).populate("address");
@@ -40,12 +42,15 @@ export const findUserById = async (userId) => {
   }
 };
 
+//! find user by email
 export const findUserByEmail = async (userEmail) => {
   try {
     const user = await User.findOne({ email: userEmail });
     if (!user) {
       throw new Error("User not found with this email:", userEmail);
     }
+    // console.log(user);
+
     return user;
   } catch (error) {
     throw new Error(error.message);
@@ -64,9 +69,14 @@ export const findUserByEmail = async (userEmail) => {
 //   }
 // };
 
+//! get all users
 export const getAllUsers = async () => {
+  // console.log("get all user hitted");
+
   try {
     const users = await User.find();
+    // console.log("users", users);
+
     return users;
   } catch (error) {
     throw new Error(error.message);

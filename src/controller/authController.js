@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import { createCart } from "../services/cartService.js";
 import mongoose from "mongoose";
 
+//! signup user
 export const register = async (req, res) => {
   // console.log("hit");
 
@@ -39,6 +40,7 @@ export const register = async (req, res) => {
   }
 };
 
+//! login user
 export const login = async (req, res) => {
   // console.log("hit");
 
@@ -46,6 +48,8 @@ export const login = async (req, res) => {
 
   try {
     const user = await findUserByEmail(email);
+    // console.log(user);
+
     if (!user) {
       return res.status(404).json({
         status: false,

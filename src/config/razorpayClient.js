@@ -1,11 +1,9 @@
 import Razorpay from "razorpay";
-
-const razorpay_key_id = "rzp_test_SiQdlK7nOemXIj";
-const razorpay_key_secret = "P6dcYHegqgrj3gVG2CXqVvxx";
+import "dotenv/config";
 
 var razorpay = new Razorpay({
-  key_id: razorpay_key_id,
-  key_secret: razorpay_key_secret,
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
 export default razorpay;

@@ -11,6 +11,7 @@ import {
   userOrderHistory,
 } from "../services/orderService.js";
 
+//! create order
 export const createOrderController = async (req, res) => {
   const user = req.user;
   try {
@@ -128,7 +129,7 @@ export const cancelledOrderController = async (req, res) => {
 
 export const findOrderByIdController = async (req, res) => {
   const orderId = req.params.orderId;
-  // console.log("hitted");
+  // console.log("find order by id api hitted");
 
   try {
     const order = await findOrderById(orderId);
@@ -150,13 +151,16 @@ export const findOrderByIdController = async (req, res) => {
 //! user order history
 
 export const userOrderHistoryController = async (req, res) => {
-  const user = await req.user;
+  // console.log("user order history api hitted");
+
+  const user = req.user;
   try {
     const orders = await userOrderHistory(user._id);
     return res.status(200).json({
       status: true,
       message: "Order history fetched successfully.",
       orders,
+      totalOrder: orders.length,
     });
   } catch (error) {
     return res.status(500).json({

@@ -6,6 +6,7 @@ import {
   cancelledOrdersController,
   deliveredOrdersController,
   deleteOrdersController,
+  outForDeliveryOrdersController,
 } from "../controller/adminOrderController.js";
 
 import authMiddelware from "../middleware/authMiddelware.js";
@@ -17,6 +18,11 @@ router.post("/:orderId", authMiddelware, placedOrderController);
 router.put("/:orderId/confirm", authMiddelware, confirmedOrdersController);
 // router.patch("/:orderId/ship", authMiddelware, shippedOrdersController);
 router.put("/:orderId/ship", authMiddelware, shippedOrdersController);
+router.put(
+  "/:orderId/out-for-delivery",
+  authMiddelware,
+  outForDeliveryOrdersController,
+);
 router.put("/:orderId/deliver", authMiddelware, deliveredOrdersController);
 router.put("/:orderId/cancel", authMiddelware, cancelledOrdersController);
 router.delete("/:orderId/delete", authMiddelware, deleteOrdersController);
