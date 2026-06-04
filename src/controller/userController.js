@@ -1,4 +1,8 @@
-import { findUserById, getAllUsers } from "../services/userService.js";
+import {
+  findUserById,
+  getAllUsers,
+  getUserAddresses,
+} from "../services/userService.js";
 
 //! get user profile by id
 export const getUserProfile = async (req, res) => {
@@ -34,6 +38,27 @@ export const getAllUsersController = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       status: false,
+      message: error.message,
+    });
+  }
+};
+
+//! get user addresses
+
+export const getUserAddressesController = async (req, res) => {
+  const id = req.params.id;
+  // console.log(id);
+
+  try {
+    const addresses = await getUserAddresses(id);
+    return res.status(200).json({
+      status: true,
+      message: "Addresses fetched successfully",
+      addresses,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: true,
       message: error.message,
     });
   }

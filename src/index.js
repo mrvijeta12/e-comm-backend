@@ -12,6 +12,7 @@ import reviewRoute from "./routes/reviewRoute.js";
 import ratingRoute from "./routes/ratingRoute.js";
 import adminOrderRoute from "./routes/adminOrderRoute.js";
 import paymentRoute from "./routes/paymentRoute.js";
+import addressRoute from "./routes/addressRoute.js";
 
 import connection from "./config/db.js";
 
@@ -24,7 +25,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://e-comm-ekk2.vercel.app"],
+    origin: ["http://localhost:5173", "https://e-comm-9kks.vercel.app/"],
     credentials: true,
   }),
 );
@@ -47,6 +48,7 @@ app.use("/api/cart", cartRoute);
 app.use("/api/reviews", reviewRoute);
 app.use("/api/ratings", ratingRoute);
 app.use("/api/payments", paymentRoute);
+app.use("/api/addresses", addressRoute);
 
 // 404 handler
 app.use((req, res) => {

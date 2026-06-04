@@ -1,3 +1,4 @@
+import Address from "../models/addressModel.js";
 import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
 
@@ -81,4 +82,15 @@ export const getAllUsers = async () => {
   } catch (error) {
     throw new Error(error.message);
   }
+};
+
+//! get user address
+
+export const getUserAddresses = async (id) => {
+  const user = await User.findById(id);
+  if (!user) {
+    throw new Error(`No user found.`);
+  }
+  const addresses = await Address.find({ user: user._id });
+  return addresses;
 };

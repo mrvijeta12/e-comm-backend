@@ -20,6 +20,7 @@ const authMiddelware = async (req, res, next) => {
     const decode = jwt.verify(token, process.env.SECRET_KEY);
     const user = await findUserById(decode.userId);
     req.user = user;
+
     next();
   } catch (error) {
     return res.status(500).json({

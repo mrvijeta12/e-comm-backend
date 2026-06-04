@@ -112,9 +112,6 @@ export const findProductById = async (productId) => {
 
 //! get all products based on the filter, sort and pagination
 export const getAllProducts = async (reqQuery) => {
-  console.log("get all products hitted");
-  console.log(reqQuery.category);
-
   let {
     category,
     color,
@@ -136,7 +133,7 @@ export const getAllProducts = async (reqQuery) => {
   // Category
   if (category) {
     const existCategory = await Category.findOne({ name: category });
-    console.log(existCategory);
+    // console.log(existCategory);
 
     if (!existCategory) {
       return { content: [], currentPage: 1, totalPages: 0 };
@@ -216,7 +213,7 @@ export const getAllProducts = async (reqQuery) => {
 
     Product.countDocuments(filter),
   ]);
-  console.log("product:", products);
+  // console.log("product:", products);
 
   return {
     content: products,
