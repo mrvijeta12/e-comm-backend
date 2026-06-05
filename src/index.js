@@ -15,14 +15,14 @@ import paymentRoute from "./routes/paymentRoute.js";
 import addressRoute from "./routes/addressRoute.js";
 
 import connection from "./config/db.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
 // console.log("Connecting server to DB...");
 await connection();
-
 app.use(express.json());
-
+app.use(cookieParser());
 app.use(
   cors({
     origin: ["http://localhost:5173", "https://e-comm-9kks.vercel.app"],

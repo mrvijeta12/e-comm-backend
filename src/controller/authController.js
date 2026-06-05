@@ -19,17 +19,24 @@ export const register = async (req, res) => {
     await session.commitTransaction();
     session.endSession();
     const token = await generateToken(user._id);
-    return res.status(201).json({
-      status: true,
-      message: "User created successfully",
-      token: token,
-      user: {
-        id: user._id,
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-      },
-    });
+    return res
+      .cookie("token", token, {
+        httpOnly: true, // prevent js to access token as fe does not get it .
+        secure: true, // make it true when run in https on http keep if false
+        sameSite: "strict", // work on same site not when user click through other site
+      })
+      .status(201)
+      .json({
+        status: true,
+        message: "User created successfully",
+
+        user: {
+          id: user._id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+        },
+      });
   } catch (error) {
     await session.abortTransaction();
     session.endSession();
@@ -68,17 +75,23 @@ export const login = async (req, res) => {
 
     // console.log(user);
 
-    return res.status(200).json({
-      status: true,
-      token,
-      message: `User login successfully`,
-      user: {
-        id: user._id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-      },
-    });
+    return res
+      .cookie("token", token, {
+        httpOnly: true, // prevent js to access token as fe does not get it .
+        secure: true, // make it true when run in https
+        sameSite: "strict", // work on same site not when user click through other site
+      })
+      .status(200)
+      .json({
+        status: true,
+        message: `User login successfully`,
+        user: {
+          id: user._id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+        },
+      });
   } catch (error) {
     return res.status(500).json({
       status: false,

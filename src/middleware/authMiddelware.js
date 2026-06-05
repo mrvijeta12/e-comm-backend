@@ -3,20 +3,31 @@ import { findUserById } from "../services/userService.js";
 const authMiddelware = async (req, res, next) => {
   // console.log("AUTH HIT");
   try {
-    const authHeader = req.headers.authorization;
+    // const authHeader = req.headers.authorization;
 
-    if (!authHeader) {
+    // if (!authHeader) {
+    //   return res.status(401).json({
+    //     status: false,
+    //     message: "No token provided",
+    //   });
+    // }
+    // let token;
+    // if (authHeader.startsWith("Bearer")) {
+    //   token = authHeader.split(" ")[1];
+    // } else {
+    //   token = authHeader;
+    // }
+    let token;
+    if (req.cookies?.token) {
+      token = req.cookies.token;
+    }
+    if (!token) {
       return res.status(401).json({
         status: false,
         message: "No token provided",
       });
     }
-    let token;
-    if (authHeader.startsWith("Bearer")) {
-      token = authHeader.split(" ")[1];
-    } else {
-      token = authHeader;
-    }
+
     const decode = jwt.verify(token, process.env.SECRET_KEY);
     const user = await findUserById(decode.userId);
     req.user = user;
